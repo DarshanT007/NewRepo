@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Add delete</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  </head>
+</head>
+<style>
+
+  table{
+    margin-top: 25px;
+  }
+
+table, th, td {
+  border: 1px solid rgb(4, 203, 238);
+}
+td{
+  padding: 10px;
+}
+input{
+  margin-top: 10px;
+}
+th {padding: 10PX;
+  background-color: rgb(52, 52, 52);
+  color: aliceblue;
+}
+</style>
+
+<body>
+    <center>
+        <input type="text" id="textInput" placeholder="Enter text" class="border border-gray-300 px-2 py-1" />
+        <button onclick="addData()" class=" mt-4 bg-blue-500 text-white p-2 rounded">Add</button>
+    
+        <table id="dataTable" style="border: 1px solid black; ">
+          <thead  class="bg-slate-500">
+            <tr>
+              <th>SR.No</th>
+              <th>Data</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody >
+           
+          </tbody>
+        </table>
+    </center> 
+</body>
+<script>
+
+ let data = [];
+
+function addData() {
+  const inputText = document.getElementById("textInput").value.trim();
+  if (inputText !== "") {
+    data.push(inputText);
+    renderTable();
+    document.getElementById("textInput").value = ""; 
+  }
+}
+
+function renderTable() {
+        const tableBody = document.querySelector("#dataTable tbody");
+        tableBody.innerHTML = ""; 
+
+        data.forEach((text, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+          <td>${index +1}</td>
+          <td>${text}</td>
+          <td>
+            <button class=" mt-1 bg-blue-500 text-white px-4 py-2 rounded" onclick="editData(${index})">Edit</button>
+            <button class=" mt-1 bg-red-500 text-white px-4 py-2 rounded" onclick="deleteData(${index})">Delete</button>
+          </td>
+        `;
+
+          tableBody.appendChild(row);
+        });
+      }
+
+      function deleteData(index) {
+        // if (confirm("Delete Data")) {
+          data.splice(index, 1);
+          renderTable();
+        // }
+      }
+    
+      function editData(index) {
+        const newText = prompt("Enter new text:", data[index]);
+        if (newText !== null) {
+          data[index] = newText.trim();
+          renderTable();
+        }
+        
+      }
+    
+</script>
+</html>
